@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Blog</title>
+  <title>jdk1.8下String.intern方法解析 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="1. 总起jdk1.8没有永久代有元空间，jdk1.7字符串常量池（StringTable）由永久代移入堆内。 主原则：  字符串常量池只持有堆内引用。 new 一定会新建一个新的对象。 intern方法会返回常量池已存在字符串的引用，不存在则在常量池记录当前字符串的引用，并返回当前字符串的引用。 字面量（如String str &#x3D; “aaa”的aaa）会产生一个新的String对象，并且常量池引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jdk1.8下String.intern方法解析">
+<meta property="og:url" content="http://yoursite.com/2020/02/25/jdk1-8%E4%B8%8BString-intern%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/index.html">
 <meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1. 总起jdk1.8没有永久代有元空间，jdk1.7字符串常量池（StringTable）由永久代移入堆内。 主原则：  字符串常量池只持有堆内引用。 new 一定会新建一个新的对象。 intern方法会返回常量池已存在字符串的引用，不存在则在常量池记录当前字符串的引用，并返回当前字符串的引用。 字面量（如String str &#x3D; “aaa”的aaa）会产生一个新的String对象，并且常量池引">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-24T16:23:05.000Z">
+<meta property="article:modified_time" content="2020-02-24T16:23:37.064Z">
 <meta property="article:author" content="CYD">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="原理">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Blog" type="application/atom+xml">
@@ -134,16 +140,14 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-jdk1-8下String-intern方法解析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-jdk1-8下String-intern方法解析" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/25/jdk1-8%E4%B8%8BString-intern%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/">jdk1.8下String.intern方法解析</a>
+    <h1 class="article-title" itemprop="name">
+      jdk1.8下String.intern方法解析
     </h1>
   
 
@@ -199,16 +203,75 @@
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/25/jdk1-8%E4%B8%8BString-intern%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/02/25/jdk1-8%E4%B8%8BString-intern%E6%96%B9%E6%B3%95%E8%A7%A3%E6%9E%90/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/02/25/slf4j%E6%97%A5%E5%BF%97%E6%A1%A5%E6%8E%A5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">slf4j日志桥接</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -228,275 +291,14 @@
 
 
 
-
   
-    <article id="post-slf4j日志桥接" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/25/slf4j%E6%97%A5%E5%BF%97%E6%A1%A5%E6%8E%A5/">slf4j日志桥接</a>
-    </h1>
   
 
-        
-        <a href="/2020/02/25/slf4j%E6%97%A5%E5%BF%97%E6%A1%A5%E6%8E%A5/" class="archive-article-date">
-  	<time datetime="2020-02-24T16:22:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <table>
-<thead>
-<tr>
-<th align="center">jar包</th>
-<th align="center">功能</th>
-<th align="center">说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">jcl-over-slf4j.jar</td>
-<td align="center">jcl    -&gt; slf4j</td>
-<td align="center">将Jakarta(Apache) Commons Logging日志框架到 slf4j 的桥接</td>
-</tr>
-<tr>
-<td align="center">jul-to-slf4j.jar</td>
-<td align="center">juc    -&gt; slf4j</td>
-<td align="center">将java.util.logging的日志桥接到 slf4j</td>
-</tr>
-<tr>
-<td align="center">log4j-over-slf4j.jar</td>
-<td align="center">log4j  -&gt; slf4j</td>
-<td align="center">将log4j 的日志，桥接到slf4j</td>
-</tr>
-<tr>
-<td align="center">osgi-over-slf4j.jar</td>
-<td align="center">osgi   -&gt; slf4j</td>
-<td align="center">将osgi环境下的日志，桥接到slf4j</td>
-</tr>
-<tr>
-<td align="center">slf4j-android.jar</td>
-<td align="center">android-&gt; slf4j</td>
-<td align="center">将android环境下的日志，桥接到slf4j</td>
-</tr>
-<tr>
-<td align="center">slf4j-api.jar</td>
-<td align="center"></td>
-<td align="center">slf4j 的api接口jar包</td>
-</tr>
-<tr>
-<td align="center">slf4j-ext.jar</td>
-<td align="center"></td>
-<td align="center">扩展功能</td>
-</tr>
-<tr>
-<td align="center">slf4j-jcl.jar</td>
-<td align="center">lf4j -&gt; jcl</td>
-<td align="center">slf4j 转接到 Jakarta Commons Logging日志输出框架</td>
-</tr>
-<tr>
-<td align="center">slf4j-jdk14.jar</td>
-<td align="center">slf4j -&gt; jul</td>
-<td align="center">slf4j 转接到 java.util.logging，所以这个包不能和jul-to-slf4j.jar同时用，否则会死循环</td>
-</tr>
-<tr>
-<td align="center">slf4j-log4j12.jar</td>
-<td align="center">slf4j -&gt; log4j</td>
-<td align="center">slf4j 转接到 log4j,所以这个包不能和log4j-over-slf4j.jar同时用，否则会死循环</td>
-</tr>
-<tr>
-<td align="center">slf4j-migrator.jar</td>
-<td align="center"></td>
-<td align="center">一个GUI工具，支持将项目代码中 JCL,log4j,java.util.logging的日志API转换为slf4j的写法</td>
-</tr>
-<tr>
-<td align="center">slf4j-nop.jar</td>
-<td align="center">slf4j -&gt; null</td>
-<td align="center">slf4j的空接口输出绑定，丢弃所有日志输出</td>
-</tr>
-<tr>
-<td align="center">slf4j-simple.jar</td>
-<td align="center">slf4j -&gt; slf4j-simple</td>
-<td align="center">slf4j的自带的简单日志输出接口</td>
-</tr>
-<tr>
-<td align="center">log4j-1.2-api.jar</td>
-<td align="center">log4j -&gt; log4j2</td>
-<td align="center">将log4j 的日志转接到log4j2日志框架</td>
-</tr>
-<tr>
-<td align="center">log4j-api.jar</td>
-<td align="center"></td>
-<td align="center">log4j2的api接口jar包</td>
-</tr>
-<tr>
-<td align="center">log4j-core.jar</td>
-<td align="center"></td>
-<td align="center">log4j2的日志输出核心jar包</td>
-</tr>
-<tr>
-<td align="center">log4j-slf4j-impl.jar</td>
-<td align="center">slf4j  -&gt; log4j2</td>
-<td align="center">slf4j 转接到 log4j2 的日志输出框架  不能和 log4j-to-slf4j同时用)</td>
-</tr>
-<tr>
-<td align="center">log4j-to-slf4j.jar</td>
-<td align="center">log4j2 -&gt; slf4j</td>
-<td align="center">将 log4j2的日志桥接到 slf4j  (不能和 log4j-slf4j-impl 同时用)</td>
-</tr>
-<tr>
-<td align="center">logback-core.jar</td>
-<td align="center"></td>
-<td align="center">logback核心包</td>
-</tr>
-<tr>
-<td align="center">logback-classic.jar</td>
-<td align="center">slf4j  -&gt; logback</td>
-<td align="center">桥接包</td>
-</tr>
-<tr>
-<td align="center">jboss-logging.jar (3.4版本)</td>
-<td align="center">动态加载不同日志</td>
-<td align="center">见LoggerProviders.findProvider()方法，优先配置，后jboss自身（jar包内已无），log4j2，log4j，logback（使用slf4j），slf4j，jdk的log依次进行尝试获取日志提供者</td>
-</tr>
-</tbody></table>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">slf4j</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/25/slf4j%E6%97%A5%E5%BF%97%E6%A1%A5%E6%8E%A5/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/25/hello-world/">hello-world</a>
-    </h1>
   
 
-        
-        <a href="/2020/02/25/hello-world/" class="archive-article-date">
-  	<time datetime="2020-02-24T16:07:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>你好</p>
-        
-          <a class="article-more-a" href="/2020/02/25/hello-world/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/25/hello-world/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
+
   
 
 
@@ -519,8 +321,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
