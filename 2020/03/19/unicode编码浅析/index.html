@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>unicode编码浅析 | Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、unicode概述​    unicode其为根据唯一码点（编号）确定字符，不论编码形式为utf8，16，32，其unicode码点都一致，只是每个编码的规则和字节内容存在差异。 二、utf-8浅析​    utf8为可变字节，其结构如下：| 字节数 | 码点 | 编码结构（2进制） ||:-|:-:|:-|| 1字节 | U-00000000 - U-0000007F | 0xxxxxxx">
+  <meta name="description" content="一、unicode概述​    unicode其为根据唯一码点（编号）确定字符，不论编码形式为utf8，16，32，其unicode码点都一致，只是每个编码的规则和字节内容存在差异。 二、utf-8浅析​    utf8为可变字节，其结构如下：    字节数 码点 编码结构（2进制）    1字节 U-00000000 - U-0000007F 0xxxxxxx   2字节 U-00000080">
 <meta property="og:type" content="article">
 <meta property="og:title" content="unicode编码浅析">
 <meta property="og:url" content="http://yoursite.com/2020/03/19/unicode%E7%BC%96%E7%A0%81%E6%B5%85%E6%9E%90/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="一、unicode概述​    unicode其为根据唯一码点（编号）确定字符，不论编码形式为utf8，16，32，其unicode码点都一致，只是每个编码的规则和字节内容存在差异。 二、utf-8浅析​    utf8为可变字节，其结构如下：| 字节数 | 码点 | 编码结构（2进制） ||:-|:-:|:-|| 1字节 | U-00000000 - U-0000007F | 0xxxxxxx">
+<meta property="og:description" content="一、unicode概述​    unicode其为根据唯一码点（编号）确定字符，不论编码形式为utf8，16，32，其unicode码点都一致，只是每个编码的规则和字节内容存在差异。 二、utf-8浅析​    utf8为可变字节，其结构如下：    字节数 码点 编码结构（2进制）    1字节 U-00000000 - U-0000007F 0xxxxxxx   2字节 U-00000080">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-19T12:00:43.000Z">
-<meta property="article:modified_time" content="2020-03-19T13:02:36.109Z">
+<meta property="article:modified_time" content="2020-03-19T13:04:02.584Z">
 <meta property="article:author" content="CYD">
 <meta property="article:tag" content="原理">
 <meta name="twitter:card" content="summary">
@@ -160,7 +160,46 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h3 id="一、unicode概述"><a href="#一、unicode概述" class="headerlink" title="一、unicode概述"></a>一、unicode概述</h3><p>​    unicode其为根据唯一码点（编号）确定字符，不论编码形式为utf8，16，32，其unicode码点都一致，只是每个编码的规则和字节内容存在差异。</p>
-<h3 id="二、utf-8浅析"><a href="#二、utf-8浅析" class="headerlink" title="二、utf-8浅析"></a>二、utf-8浅析</h3><p>​    utf8为可变字节，其结构如下：<br>| 字节数 | 码点 | 编码结构（2进制） |<br>|:-|:-:|:-|<br>| 1字节 | U-00000000 - U-0000007F | 0xxxxxxx  |<br>| 2字节 | U-00000080 - U-000007FF | 110xxxxx 10xxxxxx  |<br>| 3字节 | U-00000800 - U-0000FFFF | 1110xxxx 10xxxxxx 10xxxxxx  |<br>| 4字节 | U-00010000 - U-001FFFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx  |<br>| 5字节 | U-00200000 - U-03FFFFFF | 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx  |<br>| 6字节 | U-04000000 - U-7FFFFFFF | 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx  |</p>
+<h3 id="二、utf-8浅析"><a href="#二、utf-8浅析" class="headerlink" title="二、utf-8浅析"></a>二、utf-8浅析</h3><p>​    utf8为可变字节，其结构如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字节数</th>
+<th align="center">码点</th>
+<th align="left">编码结构（2进制）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1字节</td>
+<td align="center">U-00000000 - U-0000007F</td>
+<td align="left">0xxxxxxx</td>
+</tr>
+<tr>
+<td align="left">2字节</td>
+<td align="center">U-00000080 - U-000007FF</td>
+<td align="left">110xxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td align="left">3字节</td>
+<td align="center">U-00000800 - U-0000FFFF</td>
+<td align="left">1110xxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td align="left">4字节</td>
+<td align="center">U-00010000 - U-001FFFFF</td>
+<td align="left">11110xxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td align="left">5字节</td>
+<td align="center">U-00200000 - U-03FFFFFF</td>
+<td align="left">111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+<tr>
+<td align="left">6字节</td>
+<td align="center">U-04000000 - U-7FFFFFFF</td>
+<td align="left">1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+</tbody></table>
 <p>通过数头字节有几个1确定有几个字节，然后以如下规则替换xxxxx：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以js为荔子：</span></span><br><span class="line"><span class="string">"衍"</span>.codePointAt(<span class="number">0</span>).toString(<span class="number">16</span>);<span class="comment">//码点为884d</span></span><br><span class="line"><span class="built_in">parseInt</span>(<span class="string">"884d"</span>,<span class="number">16</span>).toString(<span class="number">2</span>);<span class="comment">//二进制为1000100001001101</span></span><br><span class="line"><span class="comment">// 对照上述码点为3字节区间内，将二进制从右往左填充，不足补0</span></span><br><span class="line"><span class="comment">// 1110xxxx 10xxxxxx 10xxxxxx（结构）</span></span><br><span class="line"><span class="comment">//     1000   100001   001101（二进制补足）</span></span><br><span class="line"><span class="comment">// 11101000 10100001 10001101（结果）</span></span><br><span class="line"><span class="comment">//    e8      a1        8d   （十六进制）</span></span><br><span class="line"><span class="comment">// 所以“衍”字的utf-8字节为e8 a1 8d。</span></span><br></pre></td></tr></table></figure>
 
